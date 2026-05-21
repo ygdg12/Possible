@@ -86,6 +86,20 @@ const Ico = ({ name, size = 18, strokeWidth = 1.6, className = "" }) => {
 
 
 
+function VisitTracker() {
+  useEffect(() => {
+    const logged = sessionStorage.getItem("pt_visit_logged");
+    if (logged) return;
+    fetch("https://possible-1-zua9.onrender.com/api/admin/visits", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: "{}",
+    }).catch(() => {});
+    sessionStorage.setItem("pt_visit_logged", "1");
+  }, []);
+  return null;
+}
+
 const contactInfo = [
   { icon: "mail", label: "Email", value: EMAIL, href: `mailto:${EMAIL}` },
   { icon: "phone", label: "Phone", value: PHONE_MAIN_DISPLAY, href: `tel:${PHONE_MAIN}` },
@@ -585,19 +599,6 @@ export default function App() {
     setTimeout(() => setFormSent(false), 4000);
     setFormData({ name: "", email: "", service: "", message: "" });
   };
-
-  function VisitTracker() {
-    useEffect(() => {
-      const logged = sessionStorage.getItem("pt_visit_logged");
-      if (logged) return;
-      fetch("https://possible-1-zua9.onrender.com/api/admin/visits", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-      }).catch(() => {});
-      sessionStorage.setItem("pt_visit_logged", "1");
-    }, []);
-    return null;
-  }
 
   return (
     <BrowserRouter>
