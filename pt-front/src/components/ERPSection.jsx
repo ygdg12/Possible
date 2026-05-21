@@ -19,88 +19,89 @@ const ICONS = {
   settings: ["M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z","M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"],
   briefcase: "M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2",
   phone: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.77h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.77-.77a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 17.38v-.46z",
-  x: ["M18 6L6 18","M6 6l12 12"]
+  x: ["M18 6L6 18","M6 6l12 12"],
+  truck: ["M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2","M15 18H9","M19 18h2a1 1 0 0 0 1-1v-3.28a1 1 0 0 0-.684-.948l-1.923-.641a1 1 0 0 1-.578-.502l-1.539-3.076A1 1 0 0 0 16.382 8H14","M14 18v-3a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v3","M14 9V7"],
+  wifi: ["M5 12.55a11 11 0 0 1 14.08 0","M1.42 9a16 16 0 0 1 21.16 0","M8.53 16.11a6 6 0 0 1 6.95 0","M12 20h.01"],
+  sparkles: ["M12 3l1.2 3.6L17 7.8l-3.6 1.2L12 12.6 10.6 9l-3.6-1.2L10.8 6.6 12 3z","M5 14l.8 2.4L8 17.2l-2.4.8L5 20.4 3.6 18l-2.4-.8L3.2 16.4 5 14z","M19 14l.8 2.4L22 17.2l-2.4.8L19 20.4l-1.4-2.4-2.4-.8 2.4-.8 1.4-2.4z"]
 };
 
 const packages = [
   {
-    id: "starter",
-    tag: "For small businesses",
-    name: "Starter ERP",
-    tagline: "Your first step into smart management.",
-    description: "A focused, affordable ERP that covers the essentials — finance and inventory — to help small businesses get organized and grow with confidence.",
-    icon: "zap",
-    popular: false,
-    features: [
-      "Financial Management & Ledger",
-      "Invoicing & Billing",
-      "Inventory & Stock Control",
-      "Basic Dashboard & Reports",
-      "Up to 5 users",
-      "Email support",
-      "Cloud or on-premise",
-    ],
-    cta: "Book a Free Demo",
-  },
-  {
     id: "business",
-    tag: "Most Popular",
-    name: "Business ERP",
-    tagline: "The complete toolkit for growing teams.",
-    description: "Our most popular package. Covers every core function your mid-size business needs — finance, HR, CRM, and inventory — all in one unified platform.",
+    tag: "Enterprise Resource Planning",
+    name: "ERP Solution",
+    tagline: "The complete toolkit for your business.",
+    description: "Our ERP solution covers every core function your business needs — finance, HR, CRM, inventory, and more — all in one unified platform built specifically for Ethiopian businesses.",
     icon: "layers",
     popular: true,
     features: [
-      "All Starter features",
+      "Financial Management & Ledger",
       "HR & Payroll Management",
       "Customer Relationship (CRM)",
+      "Inventory & Stock Control",
       "Sales & Purchase Orders",
       "Advanced BI & Reporting",
       "Multi-user & Role-based Access",
-      "Priority support",
       "Cloud or on-premise",
     ],
     cta: "Book a Free Demo",
   },
   {
-    id: "enterprise",
-    tag: "For large organizations",
-    name: "Enterprise ERP",
-    tagline: "The full suite for every department.",
-    description: "Everything in Business ERP plus manufacturing, supply chain, project management, and deep customization — built for organizations that demand the best.",
-    icon: "cpu",
+    id: "rfid-fleet",
+    tag: "Fleet & Logistics",
+    name: "RFID Fleet Management",
+    tagline: "Track every vehicle. Automatically. In real time.",
+    description: "A system that uses RFID technology to automatically track, monitor, and manage your entire vehicle fleet in real time — reducing manual overhead and improving operational visibility.",
+    icon: "truck",
     popular: false,
     features: [
-      "All Business features",
-      "Manufacturing & Production",
-      "Supply Chain & Logistics",
-      "Project Management",
-      "Multi-branch & Multi-currency",
-      "API integrations",
-      "Dedicated account manager",
-      "SLA-backed support",
+      "Real-time RFID vehicle tracking",
+      "Automated entry & exit logging",
+      "Live fleet location dashboard",
+      "Fuel & maintenance records",
+      "Driver assignment & scheduling",
+      "Alerts & incident reporting",
+      "Custom reporting & analytics",
     ],
-    cta: "Book a Free Demo",
+    cta: "Get a Demo",
   },
   {
-    id: "custom",
-    tag: "Fully bespoke",
-    name: "Custom ERP",
-    tagline: "Built exactly to your requirements.",
-    description: "Have unique workflows that off-the-shelf solutions can't handle? We design and build your ERP from the ground up, integrated with your existing systems.",
-    icon: "settings",
+    id: "nfc-system",
+    tag: "Contactless Technology",
+    name: "NFC Chip Integrated System",
+    tagline: "Secure, instant, contactless — built for your business.",
+    description: "A system that leverages NFC chips for secure short-range communication — enabling contactless payments, smart attendance tracking, and seamless access control at your premises.",
+    icon: "wifi",
     popular: false,
     features: [
-      "Full requirements analysis",
-      "Custom module development",
-      "Integration with existing tools",
-      "Unique workflow automation",
-      "Complete documentation",
-      "Staff training included",
-      "Long-term maintenance",
-      "Dedicated dev team",
+      "Contactless payment processing",
+      "NFC-based attendance tracking",
+      "Smart access control gates",
+      "Encrypted chip authentication",
+      "Integration with HR & payroll",
+      "Mobile app compatibility",
+      "Custom NFC card provisioning",
     ],
-    cta: "Book a Free Demo",
+    cta: "Get a Demo",
+  },
+  {
+    id: "ai-agents",
+    tag: "Artificial Intelligence",
+    name: "AI Agents for Hospitals & Schools",
+    tagline: "Intelligent assistants that run your operations.",
+    description: "Intelligent AI-powered software agents that automate repetitive tasks, answer questions around the clock, and help hospitals and schools manage complex operations more efficiently.",
+    icon: "sparkles",
+    popular: false,
+    features: [
+      "24/7 AI-powered front desk assistant",
+      "Automated appointment scheduling",
+      "Student & patient Q&A chatbot",
+      "Smart document management",
+      "Admin workflow automation",
+      "Multi-language support (Amharic & English)",
+      "Seamless integration with existing systems",
+    ],
+    cta: "Get a Demo",
   },
 ];
 
@@ -144,12 +145,12 @@ export default function ERPSection({ Ico }) {
       <div className="section-wrap">
         {/* Header */}
         <div className="erp-header">
-          <div className="section-tag">ERP Packages</div>
+          <div className="section-tag">What We Offer</div>
           <h2 className="display-heading" style={{ marginBottom: 20 }}>
-            Manage your business<br /><em>smarter, not harder.</em>
+            Powerful solutions built<br /><em>for your business.</em>
           </h2>
           <p className="erp-intro">
-            Our ERP solutions are built specifically for Ethiopian businesses — from lean startups to large enterprises. Choose the package that fits your scale and grow from there.
+            From enterprise ERP to AI agents and smart hardware integrations — our solutions are built specifically for Ethiopian businesses. Choose what fits your needs and grow from there.
           </p>
         </div>
 

@@ -133,7 +133,7 @@ export const teamMembers = [
   {
     num: "03",
     tag: "Senior Full Stack Dev & Team Lead",
-    name: "Abel Solomon",
+    name: "Abel Ashine",
     bio: "Accomplished full-stack developer and technical lead with a track record of architecting scalable web ecosystems. Orchestrating engineering execution across front-end and back-end divisions.",
     bullets: [
       "Expert in React, Node.js, and distributed system design",
@@ -167,8 +167,8 @@ export const teamMembers = [
   },
   {
     num: "05",
-    tag: "Senior UI/UX Designer",
-    name: "Ruth Abera",
+    tag: "UI/UX Designer",
+    name: "Robera Abera",
     bio: "Crafting beautiful, intuitive digital experiences with a human-centric approach. Translating complex business workflows into elegant, fluid user interfaces.",
     bullets: [
       "Expert in interactive prototyping and visual design systems",
@@ -185,7 +185,7 @@ export const teamMembers = [
   {
     num: "06",
     tag: "DevOps & Cloud Security Specialist",
-    name: "Elias Takele",
+    name: "Yared Girma",
     bio: "Architecting automated, ultra-secure cloud environments and zero-downtime integration pipelines. Keeping our applications fast, resilient, and highly available.",
     bullets: [
       "Expert in AWS, Kubernetes, and secure infrastructure-as-code",
@@ -202,7 +202,7 @@ export const teamMembers = [
   {
     num: "07",
     tag: "Lead AI & Data Engineer",
-    name: "Helena Kassa",
+    name: "Mekdelawit",
     bio: "Specializing in training machine learning models and developing natural language processing agents. Infusing intelligence and automated decision-making into core products.",
     bullets: [
       "Expert in Python, TensorFlow, and advanced NLP frameworks",
@@ -218,8 +218,8 @@ export const teamMembers = [
   },
   {
     num: "08",
-    tag: "Senior Backend Engineer",
-    name: "Dawit Tesfaye",
+    tag: "Mobile App Developer",
+    name: "Biruk",
     bio: "Architecting high-throughput server backbones and database structures. Specializing in secure API management and scalable data flow.",
     bullets: [
       "Expert in Go, Python, PostgreSQL, and Redis",
@@ -248,6 +248,38 @@ export const teamMembers = [
       linkedin: "https://linkedin.com/in/tigist-ketema",
       github: "https://github.com/tigist-ketema",
       email: "mailto:tigist@possibletechplc.com"
+    }
+  },
+  {
+    num: "10",
+    tag: "Associate Software Engineer",
+    name: "Abel",
+    bio: "A focused backend developer working on databases, API performance, and core application logic. Bringing fresh energy and clean code practices to our dev team.",
+    bullets: [
+      "Specialist in database modeling & optimization",
+      "Proficient in Node.js and Express services",
+      "Passionate about automated unit testing"
+    ],
+    img: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=800&auto=format&fit=crop&q=80",
+    socials: {
+      linkedin: "https://linkedin.com/in/abel-junior",
+      email: "mailto:abel@possibletechplc.com"
+    }
+  },
+  {
+    num: "11",
+    tag: "Front-end Developer",
+    name: "Mamo",
+    bio: "Enthusiastic front-end developer building interactive, accessible, and fast user interfaces. Assisting clients with smooth onboarding and product deployments.",
+    bullets: [
+      "Focused on React components & CSS styling",
+      "Expert in cross-browser compatibility debugging",
+      "Dedicated to client satisfaction and support"
+    ],
+    img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&auto=format&fit=crop&q=80",
+    socials: {
+      linkedin: "https://linkedin.com/in/mamo-dev",
+      email: "mailto:mamo@possibletechplc.com"
     }
   }
 ];

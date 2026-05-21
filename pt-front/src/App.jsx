@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import CustomCursor from "./components/CustomCursor.jsx";
 import HeroStats from "./components/HeroStats.jsx";
 import ProductsSection from "./components/ProductsSection.jsx";
@@ -8,6 +9,9 @@ import LogoViewer from "./components/Logoviewer.jsx";
 import LocationCard from "./components/LocationCard.jsx";
 import ERPSection from "./components/ERPSection.jsx";
 import AIAgent from "./components/AIAgent.jsx";
+import PortfolioPage from "./pages/PortfolioPage.jsx";
+import CareersPage from "./pages/CareersPage.jsx";
+import AdminPage from "./pages/AdminPage.jsx";
 import {
   EMAIL,
   PHONE_MAIN,
@@ -115,130 +119,17 @@ const TeamMemberCard = ({ item, size, dark }) => {
 };
 
 // ─── Main component ──────────────────────────────────────────────────────────
-export default function App() {
-  const [dark, setDark] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [formData, setFormData] = useState({ name: "", email: "", service: "", message: "" });
-  const [formSent, setFormSent] = useState(false);
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
-  }, [dark]);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 769px)");
-    const onChange = () => {
-      if (mq.matches) setMenuOpen(false);
-    };
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
-
-  useEffect(() => {
-    document.body.classList.toggle("menu-open", menuOpen);
-    return () => document.body.classList.remove("menu-open");
-  }, [menuOpen]);
-
-  const bg = "var(--bg)";
-  const fg = "var(--fg)";
-  const muted = "var(--muted)";
-  const border = "var(--border)";
-  const cardBg = "var(--card-bg)";
-  const cardBorder = "var(--card-border)";
-  const subtleBg = "var(--subtle-bg)";
-
-  const navLinks = [["Home","#home"],["About","#about"],["Products","#products"],["Our Team","#team"],["ERP","#erp"]];
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    setFormSent(true);
-    setTimeout(() => setFormSent(false), 4000);
-    setFormData({ name: "", email: "", service: "", message: "" });
-  };
-
+function HomePage({ dark, setDark, menuOpen, setMenuOpen, scrolled, formData, setFormData, formSent, handleFormSubmit, bg, fg, muted, border, cardBg, cardBorder, subtleBg, navLinks }) {
   return (
     <>
-      <CustomCursor />
-      <AIAgent />
-
-      {/* ── NAV ─────────────────────────────────────────────────────────── */}
-      <nav className={`nav-bar${scrolled ? " is-scrolled" : ""}${menuOpen ? " is-menu-open" : ""}`}>
-        <div className="nav-float">
-          <a href="#home" className="nav-logo" aria-label="Possible Technology — Home">
-            <img
-              src={dark ? "/logo-dark.png" : "/logo.png"}
-              alt="Possible Technology"
-              className="nav-logo-img"
-              width={420}
-              height={132}
-            />
-          </a>
-
-          <div className="nav-cluster">
-            <div className="desktop-nav">
-              {navLinks.map(([label, href]) => (
-                <a key={label} href={href} className="nav-link nav-pill">
-                  {label}
-                </a>
-              ))}
-            </div>
-
-            <div className="nav-actions">
-              <button
-                type="button"
-                className="nav-pill nav-pill--icon theme-toggle"
-                onClick={() => setDark(!dark)}
-                title="Toggle theme"
-                aria-label="Toggle theme"
-              >
-                <Ico name={dark ? "sun" : "moon"} size={15} />
-              </button>
-              <a href="#contact" className="nav-link nav-pill nav-pill--cta nav-cta">
-                Get Started
-              </a>
-              <button
-                type="button"
-                className="nav-pill nav-pill--icon mobile-menu-btn"
-                onClick={() => setMenuOpen(!menuOpen)}
-                aria-label={menuOpen ? "Close menu" : "Open menu"}
-                aria-expanded={menuOpen}
-              >
-                <Ico name={menuOpen ? "x" : "menu"} size={16} />
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="mobile-menu">
-          {navLinks.map(([label, href]) => (
-            <a key={label} href={href} className="nav-link" onClick={() => setMenuOpen(false)}>{label}</a>
-          ))}
-          <a href="#contact" className="btn-primary" onClick={() => setMenuOpen(false)}>
-            Get Started <Ico name="arrowRight" size={14} />
-          </a>
-        </div>
-      )}
-
       {/* ── HERO ─────────────────────────────────────────────────────── */}
       <section id="home" className="hero-section hero-split">
         <div className="hero-grid-bg" />
 
-        {/* ambient glow behind the P */}
         <div className="hero-p-glow" />
 
         <div className="hero-split-inner">
 
-          {/* LEFT — text */}
           <div className="hero-text-col">
 
             <div className="pill-badge hero-badge-anim">
@@ -261,7 +152,7 @@ export default function App() {
               <a href="#contact" className="btn-primary">
                 Get Started <Ico name="arrowRight" size={14} />
               </a>
-              <a href="#services" className="btn-ghost">Our Services</a>
+              <Link to="/portfolio" className="btn-ghost">Our Portfolio</Link>
             </div>
 
             <div className="hero-meta hero-meta-anim">
@@ -273,9 +164,7 @@ export default function App() {
             </div>
           </div>
 
-          {/* RIGHT — floating 3-D "P" */}
           <div className="hero-viewer-col">
-            {/* decorative ring behind the P */}
             <div className="hero-viewer-ring" />
             <LogoViewer width="100%" height={560} />
           </div>
@@ -285,7 +174,6 @@ export default function App() {
 
       <HeroStats Ico={Ico} />
 
-      {/* ── ABOUT ───────────────────────────────────────────────────────── */}
       <section id="about" className="section-padding">
         <div className="section-wrap">
           <div className="about-grid">
@@ -341,7 +229,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* ── OUR TEAM ─────────────────────────────────────────────────────── */}
       <section id="team" className="section-padding section-bordered">
         <div className="section-wrap">
           <div className="culture-intro">
@@ -353,21 +240,18 @@ export default function App() {
           </div>
 
           <div className="team-pyramid">
-            {/* Tier 1: Founder (Prominent Top Card) */}
             <div className="team-tier team-tier-1">
               {teamMembers.slice(0, 1).map((item) => (
                 <TeamMemberCard key={item.num} item={item} size="large" dark={dark} />
               ))}
             </div>
 
-            {/* Tier 2: Leadership (2 Column Grid) */}
             <div className="team-tier team-tier-2">
               {teamMembers.slice(1, 3).map((item) => (
                 <TeamMemberCard key={item.num} item={item} size="medium" dark={dark} />
               ))}
             </div>
 
-            {/* Tier 3: Specialists (4 Column Grid) */}
             <div className="team-tier team-tier-3">
               {teamMembers.slice(3).map((item) => (
                 <TeamMemberCard key={item.num} item={item} size="small" dark={dark} />
@@ -377,7 +261,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* ── WHY US ──────────────────────────────────────────────────────── */}
       <section id="why-us" className="section-padding section-bordered">
         <div className="section-wrap">
           <div className="why-grid">
@@ -417,7 +300,6 @@ export default function App() {
 
       <ERPSection Ico={Ico} />
 
-      {/* ── CONTACT ─────────────────────────────────────────────────────── */}
       <section id="contact" className="section-padding section-contact">
         <div className="section-wrap">
           <div className="section-tag">Let's Talk</div>
@@ -447,7 +329,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* Form */}
             <div className="card form-card">
               {formSent ? (
                 <div style={{ textAlign: "center", padding: "40px 0" }}>
@@ -491,12 +372,88 @@ export default function App() {
           </div>
         </div>
       </section>
+    </>
+  );
+}
 
-      {/* ── FOOTER ──────────────────────────────────────────────────────── */}
+function Layout({ dark, setDark, menuOpen, setMenuOpen, scrolled, children, navLinks, muted }) {
+  return (
+    <>
+      <CustomCursor />
+      <AIAgent />
+
+      <button
+        type="button"
+        id="theme-toggle-btn"
+        className="theme-toggle-fab"
+        onClick={() => setDark(!dark)}
+        title="Toggle theme"
+        aria-label="Toggle theme"
+      >
+        <Ico name={dark ? "sun" : "moon"} size={15} />
+      </button>
+
+      <nav className={`nav-bar${scrolled ? " is-scrolled" : ""}${menuOpen ? " is-menu-open" : ""}`}>
+        <div className="nav-float">
+          <Link to="/" className="nav-logo" aria-label="Possible Technology — Home">
+            <img
+              src={dark ? "/logo-dark.png" : "/logo.png"}
+              alt="Possible Technology"
+              className="nav-logo-img"
+              width={420}
+              height={132}
+            />
+          </Link>
+
+          <div className="nav-cluster">
+            <div className="desktop-nav">
+              {navLinks.map(([label, href]) => (
+                href.includes("#") ? (
+                  <a key={label} href={href} className="nav-link nav-pill">{label}</a>
+                ) : (
+                  <Link key={label} to={href} className="nav-link nav-pill">{label}</Link>
+                )
+              ))}
+            </div>
+
+            <div className="nav-actions">
+              <a href="#contact" className="nav-link nav-pill nav-pill--cta nav-cta">
+                Contact Us
+              </a>
+              <button
+                type="button"
+                className="nav-pill nav-pill--icon mobile-menu-btn"
+                onClick={() => setMenuOpen(!menuOpen)}
+                aria-label={menuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={menuOpen}
+              >
+                <Ico name={menuOpen ? "x" : "menu"} size={16} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {menuOpen && (
+        <div className="mobile-menu">
+          {navLinks.map(([label, href]) => (
+            href.includes("#") ? (
+              <a key={label} href={href} className="nav-link" onClick={() => setMenuOpen(false)}>{label}</a>
+            ) : (
+              <Link key={label} to={href} className="nav-link" onClick={() => setMenuOpen(false)}>{label}</Link>
+            )
+          ))}
+          <a href="#contact" className="btn-primary" onClick={() => setMenuOpen(false)}>
+            Get Started <Ico name="arrowRight" size={14} />
+          </a>
+        </div>
+      )}
+
+      {children}
+
       <footer className="site-footer">
         <div className="section-wrap">
           <div className="footer-grid">
-            {/* Brand */}
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
                 <img
@@ -517,13 +474,16 @@ export default function App() {
               </p>
             </div>
 
-            {/* Links */}
             <div>
               <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: muted, marginBottom: 16 }}>Quick Links</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                {[["Home", "#home"], ["About", "#about"], ["Our Team", "#team"], ["Services", "#services"], ["ERP", "#erp"], ["Contact", "#contact"]].map(([l, h]) => (
-                <a key={l} href={h} className="footer-link">{l}</a>
-              ))}
+                {[["Home", "/"], ["Careers", "/careers"], ["Our Team", "/#team"], ["Services", "/#services"], ["What We Offer", "/#erp"], ["Contact", "/#contact"]].map(([l, h]) => (
+                  h.includes("#") ? (
+                    <a key={l} href={h} className="footer-link">{l}</a>
+                  ) : (
+                    <Link key={l} to={h} className="footer-link">{l}</Link>
+                  )
+                ))}
               </div>
             </div>
 
@@ -543,7 +503,13 @@ export default function App() {
                   { icon: "tiktok", href: "https://www.tiktok.com/@possible.technology" },
                   { icon: "instagram", href: "#" },
                 ].map((s, i) => (
-                  <a key={i} href={s.href} className="footer-social-link">
+                  <a
+                    key={i}
+                    href={s.href}
+                    className="footer-social-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Ico name={s.icon} size={14} strokeWidth={1.5} />
                   </a>
                 ))}
@@ -562,7 +528,89 @@ export default function App() {
           </div>
         </div>
       </footer>
-
     </>
+  );
+}
+
+export default function App() {
+  const [dark, setDark] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [formData, setFormData] = useState({ name: "", email: "", service: "", message: "" });
+  const [formSent, setFormSent] = useState(false);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+  }, [dark]);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 769px)");
+    const onChange = () => {
+      if (mq.matches) setMenuOpen(false);
+    };
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    document.body.classList.toggle("menu-open", menuOpen);
+    return () => document.body.classList.remove("menu-open");
+  }, [menuOpen]);
+
+  const bg = "var(--bg)";
+  const fg = "var(--fg)";
+  const muted = "var(--muted)";
+  const border = "var(--border)";
+  const cardBg = "var(--card-bg)";
+  const cardBorder = "var(--card-border)";
+  const subtleBg = "var(--subtle-bg)";
+
+  const navLinks = [
+    ["Home","/"],
+    ["Careers","/careers"],
+    ["Products","/#products"],
+    ["Our Team","/#team"],
+    ["What We Offer","/#erp"],
+  ];
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    setFormSent(true);
+    setTimeout(() => setFormSent(false), 4000);
+    setFormData({ name: "", email: "", service: "", message: "" });
+  };
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/admin" element={
+          <AdminPage />
+        } />
+        <Route path="/careers" element={
+          <Layout dark={dark} setDark={setDark} menuOpen={menuOpen} setMenuOpen={setMenuOpen} scrolled={scrolled} navLinks={navLinks} muted={muted}>
+            <CareersPage />
+          </Layout>
+        } />
+        <Route path="/portfolio" element={
+          <Layout dark={dark} setDark={setDark} menuOpen={menuOpen} setMenuOpen={setMenuOpen} scrolled={scrolled} navLinks={navLinks} muted={muted}>
+            <PortfolioPage dark={dark} />
+          </Layout>
+        } />
+        <Route path="/" element={
+          <Layout dark={dark} setDark={setDark} menuOpen={menuOpen} setMenuOpen={setMenuOpen} scrolled={scrolled} navLinks={navLinks} muted={muted}>
+            <HomePage dark={dark} setDark={setDark} menuOpen={menuOpen} setMenuOpen={setMenuOpen} scrolled={scrolled}
+              formData={formData} setFormData={setFormData} formSent={formSent} handleFormSubmit={handleFormSubmit}
+              bg={bg} fg={fg} muted={muted} border={border} cardBg={cardBg} cardBorder={cardBorder} subtleBg={subtleBg}
+              navLinks={navLinks} />
+          </Layout>
+        } />
+      </Routes>
+    </BrowserRouter>
   );
 }
