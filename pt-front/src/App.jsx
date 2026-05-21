@@ -58,7 +58,7 @@ const icons = {
   clock: ["M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z", "M12 6v6l4 2"],
   linkedin: ["M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z", "M2 9h4v12H2z", "M4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"],
   twitter: "M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z",
-  facebook: ["M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"],
+  tiktok: "M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5",
   instagram: ["M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z", "M17.5 6.5h.01", "M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z"],
   check: "M20 6L9 17l-5-5",
   star: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
@@ -87,6 +87,32 @@ const contactInfo = [
   { icon: "phone", label: "Phone", value: PHONE_MAIN_DISPLAY, href: `tel:${PHONE_MAIN}` },
   { icon: "clock", label: "Hours", value: "Mon–Fri: 9am – 6pm" },
 ];
+
+const TeamMemberCard = ({ item, size, dark }) => {
+  return (
+    <div className={`team-card team-card--${size}`}>
+      <div className="team-card-image-wrap">
+        <img
+          src={item.img}
+          alt={item.name}
+          className="team-card-img"
+          style={{
+            filter: dark ? "grayscale(10%) brightness(0.9)" : "grayscale(5%)",
+            objectPosition: item.imgPosition || "center",
+          }}
+          loading="lazy"
+        />
+        <div className="team-card-overlay" />
+      </div>
+      <div className="team-card-content">
+        <div className="section-tag team-card-tag" style={{ alignSelf: "flex-start", marginBottom: "12px" }}>
+          {item.tag}
+        </div>
+        <h3 className="team-card-name" style={{ margin: 0 }}>{item.name}</h3>
+      </div>
+    </div>
+  );
+};
 
 // ─── Main component ──────────────────────────────────────────────────────────
 export default function App() {
@@ -227,7 +253,7 @@ export default function App() {
             <div className="hero-divider hero-divider-anim" />
 
             <p className="hero-split-lead hero-lead-anim" style={{ color: muted }}>
-              We help businesses grow with smart IT solutions — expert teams,
+              We help businesses grow with smart IT solutions  expert teams,
               real ownership, and technology that actually serves your goals.
             </p>
 
@@ -241,7 +267,7 @@ export default function App() {
             <div className="hero-meta hero-meta-anim">
               <span className="hero-meta-item"><span className="hero-meta-dot" />Since 2009</span>
               <span className="hero-meta-sep" />
-              <span className="hero-meta-item"><span className="hero-meta-dot" />20+ Engineers</span>
+              <span className="hero-meta-item"><span className="hero-meta-dot" />10+ Engineers</span>
               <span className="hero-meta-sep" />
               <span className="hero-meta-item"><span className="hero-meta-dot" />Addis Ababa</span>
             </div>
@@ -326,91 +352,27 @@ export default function App() {
             </p>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-            {teamMembers.map((item, i) => (
-              <div key={i} className={`culture-row${i % 2 === 1 ? " culture-row--reverse" : ""}`}>
-                <div className="culture-text">
-                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
-                    <span className="culture-num">{item.num}</span>
-                    <div className="section-tag" style={{ margin: 0 }}>{item.tag}</div>
-                  </div>
-                  <h3 className="culture-block-title">{item.name}</h3>
-                  <p style={{ fontSize: 14, color: muted, lineHeight: 1.8, marginBottom: 24 }}>{item.bio}</p>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
-                    {item.bullets.map((b, j) => (
-                      <div key={j} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                        <div className="culture-bullet-dot" />
-                        <span style={{ fontSize: 13, color: muted }}>{b}</span>
-                      </div>
-                    ))}
-                  </div>
+          <div className="team-pyramid">
+            {/* Tier 1: Founder (Prominent Top Card) */}
+            <div className="team-tier team-tier-1">
+              {teamMembers.slice(0, 1).map((item) => (
+                <TeamMemberCard key={item.num} item={item} size="large" dark={dark} />
+              ))}
+            </div>
 
-                  {/* Social Handles */}
-                  <div className="team-socials">
-                    {item.socials.linkedin && (
-                      <a
-                        href={item.socials.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="team-social-link"
-                        title="LinkedIn"
-                      >
-                        <Ico name="linkedin" size={14} />
-                      </a>
-                    )}
-                    {item.socials.twitter && (
-                      <a
-                        href={item.socials.twitter}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="team-social-link"
-                        title="Twitter"
-                      >
-                        <Ico name="twitter" size={14} />
-                      </a>
-                    )}
-                    {item.socials.github && (
-                      <a
-                        href={item.socials.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="team-social-link"
-                        title="GitHub"
-                      >
-                        <Ico name="code" size={14} />
-                      </a>
-                    )}
-                    {item.socials.email && (
-                      <a
-                        href={item.socials.email}
-                        className="team-social-link"
-                        title="Email"
-                      >
-                        <Ico name="mail" size={14} />
-                      </a>
-                    )}
-                  </div>
-                </div>
-                <div className="culture-image">
-                  <div className="culture-image-frame" style={{ overflow: "hidden", borderRadius: 16 }}>
-                    <img
-                      src={item.img}
-                      alt={item.name}
-                      style={{
-                        filter: dark ? "grayscale(10%) brightness(0.9)" : "grayscale(5%)",
-                        transition: "transform 0.5s ease",
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover"
-                      }}
-                      onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
-                      onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
-                    />
-                    <div style={{ position: "absolute", inset: 0, background: `linear-gradient(135deg, ${dark ? "rgba(0,0,0,0.2)" : "rgba(255,255,255,0.05)"} 0%, transparent 60%)`, pointerEvents: "none" }} />
-                  </div>
-                </div>
-              </div>
-            ))}
+            {/* Tier 2: Leadership (2 Column Grid) */}
+            <div className="team-tier team-tier-2">
+              {teamMembers.slice(1, 3).map((item) => (
+                <TeamMemberCard key={item.num} item={item} size="medium" dark={dark} />
+              ))}
+            </div>
+
+            {/* Tier 3: Specialists (4 Column Grid) */}
+            <div className="team-tier team-tier-3">
+              {teamMembers.slice(3).map((item) => (
+                <TeamMemberCard key={item.num} item={item} size="small" dark={dark} />
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -578,7 +540,7 @@ export default function App() {
                 {[
                   { icon: "linkedin", href: "#" },
                   { icon: "twitter", href: "#" },
-                  { icon: "facebook", href: "#" },
+                  { icon: "tiktok", href: "https://www.tiktok.com/@possible.technology" },
                   { icon: "instagram", href: "#" },
                 ].map((s, i) => (
                   <a key={i} href={s.href} className="footer-social-link">
