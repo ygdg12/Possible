@@ -48,9 +48,14 @@ function authGuard(req, res, next) {
 }
 
 router.post("/visits", async (req, res) => {
-  const ip = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.ip || "unknown";
-  await AdminLog.create({ ip });
-  res.json({ ok: true });
+  try {
+    const ip = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.ip || "unknown";
+    await AdminLog.create({ ip });
+    res.json({ ok: true });
+  } catch (err) {
+    console.error("Visit log error:", err.message);
+    res.status(500).json({ error: "Failed to log visit" });
+  }
 });
 
 router.post("/login", (req, res) => {
