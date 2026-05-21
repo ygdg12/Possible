@@ -22,6 +22,7 @@ const icons = {
   trash: ["M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"],
   eye: ["M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z", "M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"],
   arrowLeft: "M19 12H5M12 19l-7-7 7-7",
+  clock: ["M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z", "M12 6v6l4 2"],
 };
 
 function LoginForm({ onLogin, error }) {
@@ -117,6 +118,7 @@ export default function AdminPage() {
   const [tab, setTab] = useState("jobs");
   const [jobs, setJobs] = useState([]);
   const [applications, setApplications] = useState([]);
+  const [logs, setLogs] = useState([]);
   const [editingJob, setEditingJob] = useState(null);
   const [viewingApp, setViewingApp] = useState(null);
   const [showPostForm, setShowPostForm] = useState(false);
@@ -140,12 +142,20 @@ export default function AdminPage() {
     } catch {}
   }, [headers]);
 
+  const fetchLogs = useCallback(async () => {
+    try {
+      const res = await fetch(`${API}/logs`, { headers: headers() });
+      if (res.ok) setLogs(await res.json());
+    } catch {}
+  }, [headers]);
+
   useEffect(() => {
     if (token) {
       fetchJobs();
       fetchApps();
+      fetchLogs();
     }
-  }, [token, fetchJobs, fetchApps]);
+  }, [token, fetchJobs, fetchApps, fetchLogs]);
 
   const handleLogin = async (email, password) => {
     try {
@@ -257,6 +267,9 @@ export default function AdminPage() {
           <button type="button" className={`admin-tab${tab === "apps" ? " is-active" : ""}`} onClick={() => { setTab("apps"); setViewingApp(null); }}>
             <Ico d={icons.users} size={13} /> Applications ({applications.length})
           </button>
+          <button type="button" className={`admin-tab${tab === "logs" ? " is-active" : ""}`} onClick={() => setTab("logs")}>
+            <Ico d={icons.clock} size={13} /> Site Visits ({logs.length})
+          </button>
         </div>
 
         <div className="admin-content">
@@ -359,6 +372,29 @@ export default function AdminPage() {
                     </div>
                   )}
                 </>
+              )}
+            </>
+          )}
+
+          {tab === "logs" && (
+            <>
+              <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "1.3rem", fontWeight: 500, marginBottom: 24 }}>Site Visits</h3>
+              {logs.length === 0 ? (
+                <div className="admin-empty"><p>No visits recorded yet.</p></div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                  {logs.map((log) => (
+                    <div key={log._id} className="admin-card" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+                      <div style={{ flex: 1, minWidth: 200 }}>
+                        <div style={{ fontWeight: 600, fontSize: 14 }}>{log.page || "Admin Login"}</div>
+                        {log.email && <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>{log.email}</div>}
+                        <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>
+                          {new Date(log.createdAt).toLocaleString()}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               )}
             </>
           )}

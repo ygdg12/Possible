@@ -5,6 +5,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import Job from "../models/Job.js";
 import Application from "../models/Application.js";
+import AdminLog from "../models/AdminLog.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -46,7 +47,13 @@ function authGuard(req, res, next) {
   }
 }
 
-router.post("/login", (req, res) => {
+router.post("/visits", async (req, res) => {
+  const { page } = req.body;
+  await AdminLog.create({ page: page || "/" });
+  res.json({ ok: true });
+});
+
+router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
     const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: "24h" });
@@ -97,6 +104,16 @@ router.post("/applications", async (req, res) => {
 router.get("/applications", authGuard, async (_req, res) => {
   const apps = await Application.find().sort({ createdAt: -1 });
   res.json(apps);
+});
+
+router.get("/logs", authGuard, async (_req, res) => {
+  const logs = await AdminLog.find().sort({ createdAt: -1 });
+  res.json(logs);
+});
+
+router.delete("/logs", authGuard, async (_req, res) => {
+  await AdminLog.deleteMany({});
+  res.json({ ok: true });
 });
 
 router.delete("/applications/:id", authGuard, async (req, res) => {
