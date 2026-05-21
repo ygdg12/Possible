@@ -25,44 +25,7 @@ const icons = {
   phone: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.77h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.77-.77a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 17.38v-.46z",
 };
 
-const openRoles = [
-  {
-    title: "Senior Full Stack Developer",
-    type: "Full-time",
-    location: "Addis Ababa",
-    desc: "Build and maintain scalable web applications using React, Node.js, and cloud infrastructure. Lead technical decisions and mentor junior developers.",
-  },
-  {
-    title: "Mobile App Developer",
-    type: "Full-time",
-    location: "Addis Ababa",
-    desc: "Develop cross-platform mobile applications using React Native or Flutter. Create fluid, performant experiences for iOS and Android.",
-  },
-  {
-    title: "UI/UX Designer",
-    type: "Full-time",
-    location: "Addis Ababa",
-    desc: "Design intuitive interfaces and seamless user experiences. Work closely with developers to bring your designs to life.",
-  },
-  {
-    title: "AI / Machine Learning Engineer",
-    type: "Full-time",
-    location: "Addis Ababa",
-    desc: "Develop intelligent agents, NLP models, and data pipelines. Help us build the next generation of AI-powered products.",
-  },
-  {
-    title: "DevOps Engineer",
-    type: "Full-time",
-    location: "Addis Ababa",
-    desc: "Manage cloud infrastructure, CI/CD pipelines, and ensure high availability across all services. Expertise in AWS or Azure required.",
-  },
-  {
-    title: "IT Support Specialist",
-    type: "Full-time",
-    location: "Addis Ababa",
-    desc: "Provide hands-on technical support to clients and internal teams. Troubleshoot hardware, software, and network issues.",
-  },
-];
+const API = "https://possible-1-zua9.onrender.com/api/admin";
 
 const perks = [
   { icon: "zap", title: "Growth Mindset", desc: "Continuous learning budget, conferences, and mentorship programs." },
@@ -76,6 +39,25 @@ export default function CareersPage() {
   const [applyFor, setApplyFor] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [application, setApplication] = useState({ name: "", email: "", phone: "", message: "" });
+  const [jobs, setJobs] = useState([]);
+
+  useEffect(() => {
+    fetch(`${API}/jobs`)
+      .then((r) => {
+        if (!r.ok) throw new Error("Failed to load jobs");
+        return r.json();
+      })
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setJobs(data);
+        } else {
+          setJobs([]);
+        }
+      })
+      .catch(() => {
+        setJobs([]);
+      });
+  }, []);
 
   const openApplication = (jobTitle) => {
     setApplyFor(jobTitle);
@@ -87,7 +69,7 @@ export default function CareersPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await fetch("http://localhost:5000/api/admin/applications", {
+      await fetch(`${API}/applications`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -146,21 +128,27 @@ export default function CareersPage() {
               Join our<br /><em>growing team.</em>
             </h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-              {openRoles.map((role, i) => (
-                <div key={i} className="card" style={{ padding: 28, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
-                  <div style={{ flex: 1, minWidth: 240 }}>
-                    <div style={{ fontWeight: 600, fontSize: 16, marginBottom: 4 }}>{role.title}</div>
-                    <div style={{ display: "flex", gap: 16, fontSize: 12, color: "var(--muted)", marginBottom: 8 }}>
-                      <span>{role.type}</span>
-                      <span>{role.location}</span>
+              {Array.isArray(jobs) && jobs.length > 0 ? (
+                jobs.map((job) => (
+                  <div key={job._id} className="card" style={{ padding: 28, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
+                    <div style={{ flex: 1, minWidth: 240 }}>
+                      <div style={{ fontWeight: 600, fontSize: 16, marginBottom: 4 }}>{job.title}</div>
+                      <div style={{ display: "flex", gap: 16, fontSize: 12, color: "var(--muted)", marginBottom: 8 }}>
+                        <span>{job.type}</span>
+                        <span>{job.location}</span>
+                      </div>
+                      <div style={{ fontSize: 13.5, color: "var(--muted)", lineHeight: 1.6 }}>{job.desc}</div>
                     </div>
-                    <div style={{ fontSize: 13.5, color: "var(--muted)", lineHeight: 1.6 }}>{role.desc}</div>
+                    <button type="button" className="btn-primary" style={{ whiteSpace: "nowrap", flexShrink: 0, border: "none", cursor: "pointer" }} onClick={() => openApplication(job.title)}>
+                      Apply Now <Ico d={icons.arrowRight} size={14} />
+                    </button>
                   </div>
-                  <button type="button" className="btn-primary" style={{ whiteSpace: "nowrap", flexShrink: 0, border: "none", cursor: "pointer" }} onClick={() => openApplication(role.title)}>
-                    Apply Now <Ico d={icons.arrowRight} size={14} />
-                  </button>
+                ))
+              ) : (
+                <div style={{ textAlign: "center", padding: "40px 20px", color: "var(--muted)", border: "1px dashed var(--border)", borderRadius: 12 }}>
+                  No open positions at the moment. Feel free to send a general application below!
                 </div>
-              ))}
+              )}
             </div>
           </div>
 

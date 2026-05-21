@@ -31,7 +31,7 @@ router.post("/login", (req, res) => {
   return res.status(401).json({ error: "Invalid email or password" });
 });
 
-router.get("/jobs", authGuard, async (_req, res) => {
+router.get("/jobs", async (_req, res) => {
   const jobs = await Job.find().sort({ createdAt: -1 });
   res.json(jobs);
 });

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 
-const API = "http://localhost:5000/api/admin";
+const API = "https://possible-1-zua9.onrender.com/api/admin";
 
 const Ico = ({ d, size = 18, strokeWidth = 1.6 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
