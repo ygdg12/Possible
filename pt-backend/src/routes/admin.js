@@ -1,7 +1,31 @@
 import express from "express";
 import jwt from "jsonwebtoken";
+import multer from "multer";
+import path from "path";
+import { fileURLToPath } from "url";
 import Job from "../models/Job.js";
 import Application from "../models/Application.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const storage = multer.diskStorage({
+  destination: path.join(__dirname, "../../uploads"),
+  filename: (_req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    cb(null, `cv-${Date.now()}${ext}`);
+  },
+});
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    const allowed = [".pdf", ".doc", ".docx"];
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (allowed.includes(ext)) cb(null, true);
+    else cb(new Error("Only PDF, DOC, and DOCX files are allowed"));
+  },
+});
 
 const router = express.Router();
 
@@ -54,6 +78,15 @@ router.delete("/jobs/:id", authGuard, async (req, res) => {
   const job = await Job.findByIdAndDelete(req.params.id);
   if (!job) return res.status(404).json({ error: "Job not found" });
   res.json({ ok: true });
+});
+
+router.post("/upload", (req, res) => {
+  upload.single("cv")(req, res, (err) => {
+    if (err) return res.status(400).json({ error: err.message });
+    if (!req.file) return res.status(400).json({ error: "No file uploaded" });
+    const url = `/uploads/${req.file.filename}`;
+    res.json({ url });
+  });
 });
 
 router.post("/applications", async (req, res) => {

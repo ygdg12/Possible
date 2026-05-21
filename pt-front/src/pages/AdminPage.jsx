@@ -322,7 +322,8 @@ export default function AdminPage() {
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: 12, fontSize: 13 }}>
                       <div><span style={{ color: "var(--muted)" }}>Email:</span> {viewingApp.email}</div>
-                      <div><span style={{ color: "var(--muted)" }}>Phone:</span> {viewingApp.phone}</div>
+                      {viewingApp.cvUrl && <div><span style={{ color: "var(--muted)" }}>CV:</span> <a href={`https://possible-1-zua9.onrender.com${viewingApp.cvUrl}`} target="_blank" rel="noopener noreferrer" style={{ color: "var(--brand)", textDecoration: "underline" }}>Download CV</a></div>}
+                      {viewingApp.portfolioUrl && <div><span style={{ color: "var(--muted)" }}>Portfolio:</span> <a href={viewingApp.portfolioUrl} target="_blank" rel="noopener noreferrer" style={{ color: "var(--brand)", textDecoration: "underline" }}>Visit Portfolio</a></div>}
                       <div><span style={{ color: "var(--muted)" }}>Message:</span></div>
                       <div style={{ background: "var(--subtle-bg)", padding: 16, borderRadius: 8, lineHeight: 1.7, whiteSpace: "pre-wrap" }}>{viewingApp.message}</div>
                       <div style={{ fontSize: 11, color: "var(--muted)" }}>Submitted: {new Date(viewingApp.createdAt).toLocaleString()}</div>

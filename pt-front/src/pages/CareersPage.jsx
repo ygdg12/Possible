@@ -38,7 +38,8 @@ export default function CareersPage() {
   const [showForm, setShowForm] = useState(false);
   const [applyFor, setApplyFor] = useState(null);
   const [submitted, setSubmitted] = useState(false);
-  const [application, setApplication] = useState({ name: "", email: "", phone: "", message: "" });
+  const [application, setApplication] = useState({ name: "", email: "", cvFile: null, portfolioUrl: "", message: "" });
+  const [uploading, setUploading] = useState(false);
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
@@ -61,13 +62,28 @@ export default function CareersPage() {
 
   const openApplication = (jobTitle) => {
     setApplyFor(jobTitle);
-    setApplication({ name: "", email: "", phone: "", message: "" });
+    setApplication({ name: "", email: "", cvFile: null, portfolioUrl: "", message: "" });
     setSubmitted(false);
     setShowForm(true);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setUploading(true);
+
+    let cvUrl = "";
+    if (application.cvFile) {
+      const fd = new FormData();
+      fd.append("cv", application.cvFile);
+      try {
+        const uploadRes = await fetch(`${API}/upload`, { method: "POST", body: fd });
+        if (uploadRes.ok) {
+          const data = await uploadRes.json();
+          cvUrl = data.url;
+        }
+      } catch {}
+    }
+
     try {
       await fetch(`${API}/applications`, {
         method: "POST",
@@ -76,11 +92,13 @@ export default function CareersPage() {
           jobTitle: applyFor,
           name: application.name,
           email: application.email,
-          phone: application.phone,
+          cvUrl,
+          portfolioUrl: application.portfolioUrl,
           message: application.message,
         }),
       });
     } catch {}
+    setUploading(false);
     setSubmitted(true);
   };
 
@@ -193,15 +211,19 @@ export default function CareersPage() {
                     <input type="email" className="input-field" placeholder="you@example.com" value={application.email} onChange={(e) => setApplication({ ...application, email: e.target.value })} required />
                   </div>
                   <div className="erp-form-group">
-                    <label className="erp-form-label">Phone</label>
-                    <input type="tel" className="input-field" placeholder="+251 911 00 0000" value={application.phone} onChange={(e) => setApplication({ ...application, phone: e.target.value })} required />
+                    <label className="erp-form-label">CV / Resume (PDF, DOC, DOCX)</label>
+                    <input type="file" className="input-field" accept=".pdf,.doc,.docx" onChange={(e) => setApplication({ ...application, cvFile: e.target.files[0] })} style={{ padding: 10 }} />
+                  </div>
+                  <div className="erp-form-group">
+                    <label className="erp-form-label">Portfolio Website <span style={{ color: "var(--muted)", fontWeight: 400 }}>(optional)</span></label>
+                    <input type="url" className="input-field" placeholder="https://your-portfolio.com" value={application.portfolioUrl} onChange={(e) => setApplication({ ...application, portfolioUrl: e.target.value })} />
                   </div>
                   <div className="erp-form-group">
                     <label className="erp-form-label">Why are you a good fit?</label>
                     <textarea className="input-field" rows={4} placeholder="Tell us about your experience, skills, and what excites you about this role..." value={application.message} onChange={(e) => setApplication({ ...application, message: e.target.value })} required style={{ resize: "vertical" }} />
                   </div>
-                  <button type="submit" className="erp-submit-btn">
-                    Submit Application <Ico d={icons.arrowRight} size={14} />
+                  <button type="submit" className="erp-submit-btn" disabled={uploading}>
+                    {uploading ? "Uploading..." : "Submit Application"} <Ico d={icons.arrowRight} size={14} />
                   </button>
                 </form>
               ) : (
