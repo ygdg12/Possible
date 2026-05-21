@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import CustomCursor from "./components/CustomCursor.jsx";
 import HeroStats from "./components/HeroStats.jsx";
 import ProductsSection from "./components/ProductsSection.jsx";
@@ -587,14 +587,15 @@ export default function App() {
   };
 
   function VisitTracker() {
-    const loc = useLocation();
     useEffect(() => {
+      const logged = sessionStorage.getItem("pt_visit_logged");
+      if (logged) return;
       fetch("https://possible-1-zua9.onrender.com/api/admin/visits", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ page: loc.pathname }),
       }).catch(() => {});
-    }, [loc.pathname]);
+      sessionStorage.setItem("pt_visit_logged", "1");
+    }, []);
     return null;
   }
 
