@@ -17,7 +17,7 @@ const PORT = Number(process.env.PORT || 5000);
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || "http://localhost:5173";
 const MONGODB_URI =
   process.env.MONGODB_URI ||
-  "mongodb+srv://yaredgirmab1234_db_user:XEXxKOsrjCneO5TD@cluster0.rp9qhx0.mongodb.net/possible-tech?retryWrites=true&w=majority";
+  "mongodb://yaredgirmab1234_db_user:XEXxKOsrjCneO5TD@ac-t7hdnju-shard-00-00.rp9qhx0.mongodb.net:27017,ac-t7hdnju-shard-00-01.rp9qhx0.mongodb.net:27017,ac-t7hdnju-shard-00-02.rp9qhx0.mongodb.net:27017/possible-tech?ssl=true&replicaSet=atlas-ocra20-shard-0&authSource=admin";
 
 app.use(helmet());
 app.use(
