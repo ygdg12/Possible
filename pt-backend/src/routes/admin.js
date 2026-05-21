@@ -48,12 +48,12 @@ function authGuard(req, res, next) {
 }
 
 router.post("/visits", async (req, res) => {
-  const { page } = req.body;
-  await AdminLog.create({ page: page || "/" });
+  const ip = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.ip || "unknown";
+  await AdminLog.create({ ip });
   res.json({ ok: true });
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", (req, res) => {
   const { email, password } = req.body;
   if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
     const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: "24h" });

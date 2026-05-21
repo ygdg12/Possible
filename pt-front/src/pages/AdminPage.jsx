@@ -386,8 +386,7 @@ export default function AdminPage() {
                   {logs.map((log) => (
                     <div key={log._id} className="admin-card" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
                       <div style={{ flex: 1, minWidth: 200 }}>
-                        <div style={{ fontWeight: 600, fontSize: 14 }}>{log.page || "Admin Login"}</div>
-                        {log.email && <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>{log.email}</div>}
+                        <div style={{ fontWeight: 600, fontSize: 14 }}>{log.ip}</div>
                         <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>
                           {new Date(log.createdAt).toLocaleString()}
                         </div>

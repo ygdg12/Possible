@@ -2,8 +2,7 @@ import mongoose from "mongoose";
 
 const adminLogSchema = new mongoose.Schema(
   {
-    email: { type: String },
-    page: { type: String },
+    ip: { type: String },
   },
   { timestamps: true }
 );
