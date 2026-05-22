@@ -30,10 +30,10 @@ const KB = [
   { patterns:["it support","helpdesk","support","managed service","maintenance"], responses:["Our **IT Support & Managed Services**:\n\n• 24/7 helpdesk & remote support\n• On-site support in Addis Ababa\n• Network setup & management\n• Hardware procurement & maintenance\n• Proactive system monitoring\n\nShall I get someone to reach out?"] },
   { patterns:["consulting","consult","strategy","digital transformation","roadmap"], responses:["Our **IT Consulting** helps you make the right technology decisions:\n\n• Digital transformation strategy\n• Technology roadmap planning\n• IT audits & assessments\n• Budget optimization\n\nWe've helped 50+ businesses modernize. Want a free consultation?"] },
   { patterns:["price","cost","pricing","how much","fee","quote","budget"], responses:["Our pricing is tailored to each client's needs — there's no one-size-fits-all.\n\n• **ERP Packages** — Request a custom quote based on modules & users\n• **Development Projects** — Scoped after a free discovery call\n• **Managed Services** — Monthly retainer based on requirements\n\nNo hidden fees, ever. Want to request a quote?"] },
-  { patterns:["contact","reach","call","email","phone","talk","get in touch"], responses:["You can reach us at:\n\n📧 **Email:** info@possibletechplc.com\n📞 **Phone:** +251 94 656 5344\n📍 **Office:** Yobek Commercial Center, Sengatera, Addis Ababa\n🕐 **Hours:** Mon–Fri, 9am–6pm\n\nOr use the Contact form on this page!"] },
+  { patterns:["contact","reach","call","email","phone","talk","get in touch"], responses:["You can reach us at:\n\n📧 **Email:** bereketmitiku79@gmail.com\n📞 **Phone:** +251 94 656 5344\n📍 **Office:** Yobek Commercial Center, Sengatera, Addis Ababa\n🕐 **Hours:** Mon–Fri, 9am–6pm\n\nOr use the Contact form on this page!"] },
   { patterns:["location","address","where","office","addis","sengatera"], responses:["We're at **Yobek Commercial Center, Sengatera, Addis Ababa, Ethiopia** 📍\n\nOpen Monday–Friday, 9am–6pm. Call +251 94 656 5344 to schedule a visit."] },
   { patterns:["about","who are you","possible technology","company","history","founded"], responses:["**Possible Technology** is an Addis Ababa-based IT company founded in 2009. We believe technology should work *for* you.\n\nOur 20+ engineer team delivers:\n• Custom software & ERP systems\n• Cloud, security & infrastructure\n• IT consulting & managed services\n\n100% built in Ethiopia, serving businesses across Africa. How can we help?"] },
-  { patterns:["thank","thanks","appreciate","great","awesome","perfect","helpful"], responses:["You're welcome! 😊 Anything else I can help with?","Happy to help! Feel free to ask anytime or reach us at info@possibletechplc.com."] },
+  { patterns:["thank","thanks","appreciate","great","awesome","perfect","helpful"], responses:["You're welcome! 😊 Anything else I can help with?","Happy to help! Feel free to ask anytime or reach us at bereketmitiku79@gmail.com."] },
   { patterns:["bye","goodbye","see you","done","that's all"], responses:["Thanks for chatting! Have a great day! 👋","Goodbye! We're always here if you need us."] },
 ];
 
@@ -46,7 +46,7 @@ function getResponse(input) {
       return entry.responses[Math.floor(Math.random() * entry.responses.length)];
     }
   }
-  return "Great question! Our team would be best placed to give you a detailed answer.\n\n📧 **Email:** info@possibletechplc.com\n📞 **Phone:** +251 94 656 5344\n\nOr fill the Contact form on this page. Would you like to know about our services or ERP packages?";
+  return "Great question! Our team would be best placed to give you a detailed answer.\n\n📧 **Email:** bereketmitiku79@gmail.com\n📞 **Phone:** +251 94 656 5344\n\nOr fill the Contact form on this page. Would you like to know about our services or ERP packages?";
 }
 
 function renderText(text) {

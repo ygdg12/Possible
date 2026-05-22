@@ -30,7 +30,7 @@ const upload = multer({
 
 const router = express.Router();
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@possibletechplc.com";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "bereketmitiku79@gmail.com";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
 const JWT_SECRET = process.env.JWT_SECRET || "possible-tech-jwt-secret-2026";
 

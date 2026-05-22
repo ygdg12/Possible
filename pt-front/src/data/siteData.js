@@ -1,7 +1,7 @@
 export const PHONE_MAIN = "+251946565344";
 export const PHONE_MAIN_DISPLAY = "+251 94 656 5344";
 export const PHONE_BM = "6409";
-export const EMAIL = "info@possibletechplc.com";
+export const EMAIL = "bereketmitiku79@gmail.com";
 export const MAPS_URL = "https://maps.app.goo.gl/G7anSgeF1uPAQ3hS6";
 
 export const OFFICE_LOCATION = {

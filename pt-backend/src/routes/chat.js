@@ -72,7 +72,7 @@ We build custom and packaged ERP software tailored for Ethiopian business needs:
 - **No Hidden Fees**: We offer completely transparent and fair pricing.
 
 ### CONTACT INFORMATION:
-- **Email**: info@possibletechplc.com
+- **Email**: bereketmitiku79@gmail.com
 - **Phone**: +251 94 656 5344
 - **Delivery Order Line**: 6409 (for BM Delivery)
 - **Office Hours**: Monday to Friday, 9:00 AM to 6:00 PM.

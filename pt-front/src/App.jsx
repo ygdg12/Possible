@@ -17,7 +17,6 @@ import {
   PHONE_MAIN,
   PHONE_MAIN_DISPLAY,
   serviceOptions,
-  teamMembers,
 } from "./data/siteData.js";
 
 
@@ -105,32 +104,6 @@ const contactInfo = [
   { icon: "phone", label: "Phone", value: PHONE_MAIN_DISPLAY, href: `tel:${PHONE_MAIN}` },
   { icon: "clock", label: "Hours", value: "Mon–Fri: 9am – 6pm" },
 ];
-
-const TeamMemberCard = ({ item, size, dark }) => {
-  return (
-    <div className={`team-card team-card--${size}`}>
-      <div className="team-card-image-wrap">
-        <img
-          src={item.img}
-          alt={item.name}
-          className="team-card-img"
-          style={{
-            filter: dark ? "grayscale(10%) brightness(0.9)" : "grayscale(5%)",
-            objectPosition: item.imgPosition || "center",
-          }}
-          loading="lazy"
-        />
-        <div className="team-card-overlay" />
-      </div>
-      <div className="team-card-content">
-        <div className="section-tag team-card-tag" style={{ alignSelf: "flex-start", marginBottom: "12px" }}>
-          {item.tag}
-        </div>
-        <h3 className="team-card-name" style={{ margin: 0 }}>{item.name}</h3>
-      </div>
-    </div>
-  );
-};
 
 // ─── Main component ──────────────────────────────────────────────────────────
 function HomePage({ dark, setDark, menuOpen, setMenuOpen, scrolled, formData, setFormData, formSent, handleFormSubmit, bg, fg, muted, border, cardBg, cardBorder, subtleBg, navLinks }) {
@@ -240,38 +213,6 @@ function HomePage({ dark, setDark, menuOpen, setMenuOpen, scrolled, formData, se
       <section id="services" className="offerings-section offerings-section--services">
         <div className="section-wrap">
           <ServicesShowcase Ico={Ico} />
-        </div>
-      </section>
-
-      <section id="team" className="section-padding section-bordered">
-        <div className="section-wrap">
-          <div className="culture-intro">
-            <div className="section-tag">Our Team</div>
-            <h2 className="display-heading">Meet the minds behind<br /><em>Possible Technology.</em></h2>
-            <p style={{ marginTop: 16, fontSize: 15, color: muted, maxWidth: 520, lineHeight: 1.8 }}>
-              We pair enterprise expertise with a collaborative builder mindset. Get to know our leadership and core engineering team.
-            </p>
-          </div>
-
-          <div className="team-pyramid">
-            <div className="team-tier team-tier-1">
-              {teamMembers.slice(0, 1).map((item) => (
-                <TeamMemberCard key={item.num} item={item} size="large" dark={dark} />
-              ))}
-            </div>
-
-            <div className="team-tier team-tier-2">
-              {teamMembers.slice(1, 3).map((item) => (
-                <TeamMemberCard key={item.num} item={item} size="medium" dark={dark} />
-              ))}
-            </div>
-
-            <div className="team-tier team-tier-3">
-              {teamMembers.slice(3).map((item) => (
-                <TeamMemberCard key={item.num} item={item} size="small" dark={dark} />
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 
@@ -491,7 +432,7 @@ function Layout({ dark, setDark, menuOpen, setMenuOpen, scrolled, children, navL
             <div>
               <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: muted, marginBottom: 16 }}>Quick Links</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                {[["Home", "/"], ["Careers", "/careers"], ["Our Team", "/#team"], ["Services", "/#services"], ["What We Offer", "/#erp"], ["Contact", "/#contact"]].map(([l, h]) => (
+                {[["Home", "/"], ["Careers", "/careers"], ["Services", "/#services"], ["What We Offer", "/#erp"], ["Contact", "/#contact"]].map(([l, h]) => (
                   h.includes("#") ? (
                     <a key={l} href={h} className="footer-link">{l}</a>
                   ) : (
@@ -589,7 +530,7 @@ export default function App() {
     ["Home","/"],
     ["Careers","/careers"],
     ["Products","/#products"],
-    ["Our Team","/#team"],
+
     ["What We Offer","/#erp"],
   ];
 

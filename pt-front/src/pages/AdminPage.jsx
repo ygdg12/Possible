@@ -28,6 +28,7 @@ const icons = {
 function LoginForm({ onLogin, error }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,11 +49,30 @@ function LoginForm({ onLogin, error }) {
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div>
             <label style={{ display: "block", fontSize: 12, color: "var(--muted)", marginBottom: 6, fontWeight: 500, letterSpacing: "0.05em", textTransform: "uppercase" }}>Email</label>
-            <input type="email" className="input-field" placeholder="admin@possibletechplc.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <input type="email" className="input-field" placeholder="example@.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
           </div>
           <div>
             <label style={{ display: "block", fontSize: 12, color: "var(--muted)", marginBottom: 6, fontWeight: 500, letterSpacing: "0.05em", textTransform: "uppercase" }}>Password</label>
-            <input type="password" className="input-field" placeholder="Enter password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <div style={{ position: "relative" }}>
+              <input type={showPassword ? "text" : "password"} className="input-field" placeholder="Enter password" value={password} onChange={(e) => setPassword(e.target.value)} required style={{ paddingRight: 40 }} />
+              <button type="button" onClick={() => setShowPassword(!showPassword)} style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", padding: 4, color: "var(--muted)", display: "flex", alignItems: "center" }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  {showPassword ? (
+                    <>
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+                      <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+                      <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24" />
+                      <line x1="1" y1="1" x2="23" y2="23" />
+                    </>
+                  ) : (
+                    <>
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </>
+                  )}
+                </svg>
+              </button>
+            </div>
           </div>
           {error && (
             <div style={{ fontSize: 13, color: "#e74c3c", background: "rgba(231, 76, 60, 0.08)", padding: "10px 14px", borderRadius: 8 }}>{error}</div>
@@ -122,6 +142,7 @@ export default function AdminPage() {
   const [editingJob, setEditingJob] = useState(null);
   const [viewingApp, setViewingApp] = useState(null);
   const [showPostForm, setShowPostForm] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(null);
 
   const headers = useCallback(() => ({
     "Content-Type": "application/json",
@@ -213,7 +234,6 @@ export default function AdminPage() {
   };
 
   const handleDeleteJob = async (id) => {
-    if (!confirm("Delete this job listing?")) return;
     try {
       const res = await fetch(`${API}/jobs/${id}`, {
         method: "DELETE",
@@ -221,10 +241,10 @@ export default function AdminPage() {
       });
       if (res.ok) setJobs(jobs.filter((j) => j._id !== id));
     } catch {}
+    setConfirmDelete(null);
   };
 
   const handleDeleteApp = async (id) => {
-    if (!confirm("Delete this application?")) return;
     try {
       const res = await fetch(`${API}/applications/${id}`, {
         method: "DELETE",
@@ -232,6 +252,7 @@ export default function AdminPage() {
       });
       if (res.ok) setApplications(applications.filter((a) => a._id !== id));
     } catch {}
+    setConfirmDelete(null);
   };
 
   if (!token) {
@@ -310,7 +331,7 @@ export default function AdminPage() {
                         <button type="button" className="btn-ghost" style={{ fontSize: 12, padding: "8px 14px" }} onClick={() => { setEditingJob(job); setShowPostForm(false); }}>
                           <Ico d={icons.eye} size={12} /> Edit
                         </button>
-                        <button type="button" className="btn-ghost" style={{ fontSize: 12, padding: "8px 14px", color: "#e74c3c" }} onClick={() => handleDeleteJob(job._id)}>
+                        <button type="button" className="btn-ghost" style={{ fontSize: 12, padding: "8px 14px", color: "#e74c3c" }} onClick={() => setConfirmDelete({ type: "job", id: job._id, title: job.title })}>
                           <Ico d={icons.trash} size={12} /> Delete
                         </button>
                       </div>
@@ -363,7 +384,7 @@ export default function AdminPage() {
                             <button type="button" className="btn-ghost" style={{ fontSize: 12, padding: "8px 14px" }} onClick={() => setViewingApp(app)}>
                               <Ico d={icons.eye} size={12} /> View
                             </button>
-                            <button type="button" className="btn-ghost" style={{ fontSize: 12, padding: "8px 14px", color: "#e74c3c" }} onClick={() => handleDeleteApp(app._id)}>
+                            <button type="button" className="btn-ghost" style={{ fontSize: 12, padding: "8px 14px", color: "#e74c3c" }} onClick={() => setConfirmDelete({ type: "app", id: app._id, title: app.name })}>
                               <Ico d={icons.trash} size={12} /> Delete
                             </button>
                           </div>
@@ -399,6 +420,30 @@ export default function AdminPage() {
           )}
         </div>
       </div>
+
+      {confirmDelete && (
+        <div className="confirm-overlay" onClick={() => setConfirmDelete(null)}>
+          <div className="confirm-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="confirm-icon-wrap">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e74c3c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 8v4M12 16h.01" />
+              </svg>
+            </div>
+            <h4 className="confirm-title">{confirmDelete.type === "job" ? "Delete Job" : "Delete Application"}</h4>
+            <p className="confirm-message">
+              Are you sure you want to delete <strong>"{confirmDelete.title}"</strong>? This action cannot be undone.
+            </p>
+            <div className="confirm-actions">
+              <button type="button" className="btn-ghost" onClick={() => setConfirmDelete(null)}>Cancel</button>
+              <button type="button" className="btn-primary" style={{ background: "#e74c3c", borderColor: "#e74c3c" }} onClick={() => {
+                if (confirmDelete.type === "job") handleDeleteJob(confirmDelete.id);
+                else handleDeleteApp(confirmDelete.id);
+              }}>Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
